@@ -2,8 +2,8 @@
   <h5>NRZ-L</h5>
   <div class="waveform">
     <svg :viewBox="viewBox" class="waveform-chart">
-      <text x="0" y="55" font-family="Arial" font-size="16">+5V</text>
-      <text x="7" y="105" font-family="Arial" font-size="16">0V</text>
+      <text x="0" y="55" font-family="Arial" font-size="16">+V</text>
+      <text x="0" y="105" font-family="Arial" font-size="16">0V</text>
       <!-- Chart -->
       <line :x1="padding" y1="100" :x2="svgWidth + padding" y2="100" stroke="black" stroke-width="0.5"/>
       <!-- Vertical grid lines -->
