@@ -27,18 +27,21 @@
     <NRZL v-if="encodedData" :binaryData="encodedData"/>
     <NRZI v-if="encodedData" :binaryData="encodedData"/>
     <BipolarAMI v-if="encodedData" :binaryData="encodedData"/>
+    <PseudoTernary v-if="encodedData" :binaryData="encodedData"/>
   </template>
   
   <script>
   import NRZL from './NRZL.vue';
   import NRZI from './NRZI.vue';
   import BipolarAMI from './BipolarAMI.vue';
+  import PseudoTernary from './PseudoTernary.vue';
   
   export default {    
     components: {
       NRZL,
       NRZI,
-      BipolarAMI
+      BipolarAMI,
+      PseudoTernary
     },
     computed: {
       isInputNotBinary() {
