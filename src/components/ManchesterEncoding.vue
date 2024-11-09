@@ -82,23 +82,23 @@ export default {
       const low = 100;
       const sequenceLength = this.binaryData.length;
 
-      if (this.binaryData[0] === "0") {
-        points.push(`${x},${high}`);
-        x += step;
-        points.push(`${x},${high}`, `${x},${low}`);
-        x += step;
-        points.push(`${x},${low}`);
-      } else {
-        points.push(`${x},${low}`);
-        x += step;
-        points.push(`${x},${low}`, `${x},${high}`);
-        x += step;
-        points.push(`${x},${high}`);
-      }
+      // if (this.binaryData[0] === "0") {
+      //   points.push(`${x},${high}`);
+      //   x += step;
+      //   points.push(`${x},${high}`, `${x},${low}`);
+      //   x += step;
+      //   points.push(`${x},${low}`);
+      // } else {
+      //   points.push(`${x},${low}`);
+      //   x += step;
+      //   points.push(`${x},${low}`, `${x},${high}`);
+      //   x += step;
+      //   points.push(`${x},${high}`);
+      // }
 
       for (let i = 0; i < sequenceLength; i++) {
         const bit = this.binaryData[i];
-        labels.push({ x: x - step, value: bit });
+        labels.push({ x: x + step, value: bit });
 
         if (bit === "0") {
           points.push(`${x},${high}`);
