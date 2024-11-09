@@ -28,6 +28,7 @@
     <NRZI v-if="encodedData" :binaryData="encodedData"/>
     <BipolarAMI v-if="encodedData" :binaryData="encodedData"/>
     <PseudoTernary v-if="encodedData" :binaryData="encodedData"/>
+    <ManchesterEncoding v-if="encodedData" :binaryData="encodedData" />
   </template>
   
   <script>
@@ -35,13 +36,15 @@
   import NRZI from './NRZI.vue';
   import BipolarAMI from './BipolarAMI.vue';
   import PseudoTernary from './PseudoTernary.vue';
+  import ManchesterEncoding from './ManchesterEncoding.vue';
   
   export default {    
     components: {
       NRZL,
       NRZI,
       BipolarAMI,
-      PseudoTernary
+      PseudoTernary,
+      ManchesterEncoding
     },
     computed: {
       isInputNotBinary() {

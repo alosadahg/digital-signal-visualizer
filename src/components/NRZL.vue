@@ -6,6 +6,17 @@
       <text x="7" y="105" font-family="Arial" font-size="16">0V</text>
       <!-- Chart -->
       <line :x1="padding" y1="100" :x2="svgWidth + padding" y2="100" stroke="black" stroke-width="0.5"/>
+      <!-- Vertical grid lines -->
+      <line
+        v-for="(lineX, index) in gridLines"
+        :key="index"
+        :x1="lineX"
+        y1="0"
+        :x2="lineX"
+        y2="200"
+        stroke="gray"
+        stroke-width="0.5"
+      />
       <polyline :points="waveformPoints" fill="none" stroke="black" stroke-width="2"/>
       <text v-for="(label, index) in labels" :key="index" :x="label.x + padding" y="40" font-family="Arial" font-size="16">{{ label.value }}</text>
     </svg>
@@ -19,6 +30,7 @@ export default {
     return {
       waveformPoints: '',
       labels: [],
+      gridLines: [],
       viewBox: '',
       svgWidth: 0,
       padding: 0
@@ -36,6 +48,7 @@ export default {
     generateWaveform() {
       const points = [];
       const labels = [];
+      const gridLines = [];
       let x = this.padding;  
       const step = 100;
       const high = 50;
@@ -69,10 +82,16 @@ export default {
         x += step;
       }
 
+      for (let gridX = 0; gridX <= x; gridX += 100) {
+        gridLines.push(gridX);
+      }
+
+
       this.waveformPoints = points.join(' ');
       this.labels = labels;
+      this.gridLines = gridLines; 
       this.svgWidth = sequenceLength * step;
-      this.viewBox = `0 0 ${this.svgWidth + this.padding} 200`;  // Include padding in the viewBox width
+      this.viewBox = `0 0 ${this.svgWidth + this.padding} 200`;  
     }
   }
 };

@@ -1,10 +1,11 @@
 <template>
+  <h5>Manchester</h5>
   <div class="waveform">
-    <h5>NRZ-I</h5>
     <svg :viewBox="viewBox" class="waveform-chart">
       <text x="0" y="55" font-family="Arial" font-size="16">+5V</text>
       <text x="7" y="105" font-family="Arial" font-size="16">0V</text>
-      <!-- Chart -->
+
+      <!-- Horizontal line -->
       <line
         :x1="padding"
         y1="100"
@@ -13,6 +14,7 @@
         stroke="black"
         stroke-width="0.5"
       />
+
       <!-- Vertical grid lines -->
       <line
         v-for="(lineX, index) in gridLines"
@@ -24,12 +26,16 @@
         stroke="gray"
         stroke-width="0.5"
       />
+
+      <!-- Waveform chart -->
       <polyline
         :points="waveformPoints"
         fill="none"
         stroke="black"
         stroke-width="2"
       />
+
+      <!-- Bit labels -->
       <text
         v-for="(label, index) in labels"
         :key="index"
@@ -51,11 +57,10 @@ export default {
     return {
       waveformPoints: "",
       labels: [],
-      gridLines: [],
       viewBox: "",
       svgWidth: 0,
       padding: 0,
-      currentLevel: 0, 
+      gridLines: [] 
     };
   },
   watch: {
@@ -72,48 +77,52 @@ export default {
       const labels = [];
       const gridLines = []; 
       let x = this.padding;
-      const step = 100;
+      const step = 50;
       const high = 50;
       const low = 100;
       const sequenceLength = this.binaryData.length;
 
-      if (this.binaryData[0] === "1") {
+      if (this.binaryData[0] === "0") {
         points.push(`${x},${high}`);
-        this.currentLevel = high;
+        x += step;
+        points.push(`${x},${high}`, `${x},${low}`);
+        x += step;
+        points.push(`${x},${low}`);
       } else {
         points.push(`${x},${low}`);
-        this.currentLevel = low;
+        x += step;
+        points.push(`${x},${low}`, `${x},${high}`);
+        x += step;
+        points.push(`${x},${high}`);
       }
-      let prevState = this.currentLevel;
 
       for (let i = 0; i < sequenceLength; i++) {
         const bit = this.binaryData[i];
-        labels.push({ x: x + step / 2, value: bit });
-        if (i > 0) {
-          if (bit =="1") {
-            if(prevState == high) {
-                points.push(`${x},${high}`, `${x},${low}`);
-                prevState = low;
-            } else {
-                points.push(`${x},${low}`, `${x},${high}`);
-                prevState = high;
-            }
-          } 
-        }
+        labels.push({ x: x - step, value: bit });
 
-        points.push(`${x + step},${prevState}`);
-        x += step;
+        if (bit === "0") {
+          points.push(`${x},${high}`);
+          x += step;
+          points.push(`${x},${high}`, `${x},${low}`);
+          x += step;
+          points.push(`${x},${low}`);
+        } else {
+          points.push(`${x},${low}`);
+          x += step;
+          points.push(`${x},${low}`, `${x},${high}`);
+          x += step;
+          points.push(`${x},${high}`);
+        }
       }
 
       for (let gridX = 0; gridX <= x; gridX += 100) {
         gridLines.push(gridX);
       }
 
-
       this.waveformPoints = points.join(" ");
       this.labels = labels;
       this.gridLines = gridLines; 
-      this.svgWidth = sequenceLength * step;
+      this.svgWidth = sequenceLength * (step * 2);
       this.viewBox = `0 0 ${this.svgWidth + this.padding} 200`;
     },
   },
