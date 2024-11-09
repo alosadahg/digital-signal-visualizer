@@ -93,6 +93,9 @@ export default {
     binaryData() {
       this.generateWaveform();
     },
+    initialLevel() {
+        this.generateWaveform();
+    }
   },
   mounted() {
     this.generateWaveform();
